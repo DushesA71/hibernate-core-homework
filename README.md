@@ -57,5 +57,3 @@ mvn exec:java -Dexec.mainClass="sorokin.java.course.Main"
 ## Дополнительные материалы
 - [Постановка Spring Core-ДЗ](docs/spring_core.md)
 - [Подсказки](docs/spring_core_hints.md)
-- [Постановка в PDF](docs/pdf/spring_core.pdf)
-- [Подсказки в PDF](docs/pdf/spring_core_hints.pdf)
