@@ -54,6 +54,3 @@ mvn exec:java -Dexec.mainClass="sorokin.java.course.Main"
 
 Если `exec-maven-plugin` не настроен, можно запускать из IDE через класс `Main`.
 
-## Дополнительные материалы
-- [Постановка Spring Core-ДЗ](docs/spring_core.md)
-- [Подсказки](docs/spring_core_hints.md)
