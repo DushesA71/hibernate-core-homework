@@ -172,7 +172,3 @@ public User createUser(String login) {
 ```
 
 Аналогично для `AccountService`. Счётчики у `UserService` и `AccountService` независимые - это гарантирует, что каждый новый пользователь и аккаунт получат уникальный идентификатор.
-
-## Эталонное решение
-
-[Spring Core Bank Solution](https://github.com/sorokin-school/spring-core-bank-solution).

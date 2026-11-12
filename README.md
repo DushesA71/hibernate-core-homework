@@ -59,4 +59,3 @@ mvn exec:java -Dexec.mainClass="sorokin.java.course.Main"
 - [Подсказки](docs/spring_core_hints.md)
 - [Постановка в PDF](docs/pdf/spring_core.pdf)
 - [Подсказки в PDF](docs/pdf/spring_core_hints.pdf)
-- [Следующая итерация: Hibernate Core Bank Solution](https://github.com/sorokin-school/hibernate-core-bank-solution)
