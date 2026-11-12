@@ -53,4 +53,3 @@ mvn exec:java -Dexec.mainClass="sorokin.java.course.Main"
 ```
 
 Если `exec-maven-plugin` не настроен, можно запускать из IDE через класс `Main`.
-
