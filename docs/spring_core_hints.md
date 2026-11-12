@@ -1,4 +1,4 @@
-# SpringBank Hints: Iteration 1 (Spring Core)
+# Подсказки<br>Spring Core - MiniBank
 
 Эти подсказки относятся к первой итерации проекта `SpringBank`, которая выполняется после модуля `Spring Core`.
 
@@ -29,6 +29,15 @@ public class AccountProperties {
             @Value("${account.default-amount}") int defaultAmount,
             @Value("${account.transfer-commission}") double transferCommission
     ) {
+        if (defaultAmount < 0) {
+            throw new IllegalArgumentException(
+                    "account.default-amount must be >= 0");
+        }
+        if (!Double.isFinite(transferCommission)
+                || transferCommission < 0 || transferCommission > 1) {
+            throw new IllegalArgumentException(
+                    "account.transfer-commission must be a finite value in [0, 1]");
+        }
         this.defaultAmount = defaultAmount;
         this.transferCommission = transferCommission;
     }
@@ -111,6 +120,8 @@ public class ConsoleListener {
 
 Это необязательная оптимизация - можно реализовать и через обычный switch. Но паттерн Command сделает код чище, если команд много.
 
+<div class="page-break"></div>
+
 ## Как сделать перевод с одного счёта на другой
 
 **Описание**: Необходимо реализовать функцию перевода денег между счетами, учитывая комиссию.
@@ -152,6 +163,8 @@ public void transfer(int fromAccountId, int toAccountId, int amount) {
     accountTo.setMoneyAmount(targetAfter);
 }
 ```
+
+<div class="page-break"></div>
 
 ## Как реализовать выдачу ID новым пользователям и аккаунтам
 

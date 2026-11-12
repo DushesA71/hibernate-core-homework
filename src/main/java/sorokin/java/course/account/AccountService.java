@@ -5,6 +5,7 @@ import sorokin.java.course.account.Account;
 import sorokin.java.course.user.User;
 
 import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -78,7 +79,7 @@ public class AccountService {
         }
         var accountToTransferMoney = userAccounts.stream()
                 .filter(it -> it.getId() != accountId)
-                .findFirst()
+                .min(Comparator.comparingInt(Account::getId))
                 .orElseThrow();
 
         var newAmount = Math.addExact(accountToTransferMoney.getMoneyAmount(), accountToClose.getMoneyAmount());
