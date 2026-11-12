@@ -1,4 +1,4 @@
-# MiniBank (Spring Core)
+# Spring Core Bank Solution
 
 Консольное учебное банковское приложение на Java + Spring Core.
 
@@ -55,5 +55,8 @@ mvn exec:java -Dexec.mainClass="sorokin.java.course.Main"
 Если `exec-maven-plugin` не настроен, можно запускать из IDE через класс `Main`.
 
 ## Дополнительные материалы
-- Подробная формулировка Hibernate-ДЗ: `docs/hibernate-homework.md`
-- Подсказки: `docs/hibernate-hints.md`
+- [Постановка Spring Core-ДЗ](docs/spring_core.md)
+- [Подсказки](docs/spring_core_hints.md)
+- [Постановка в PDF](docs/pdf/spring_core.pdf)
+- [Подсказки в PDF](docs/pdf/spring_core_hints.pdf)
+- [Следующая итерация: Hibernate Core Bank Solution](https://github.com/sorokin-school/hibernate-core-bank-solution)

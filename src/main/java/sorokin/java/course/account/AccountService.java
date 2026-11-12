@@ -76,15 +76,14 @@ public class AccountService {
         if (userAccounts.size() == 1) {
             throw new IllegalStateException("Can't close the only one account");
         }
-        accountMap.remove(accountId);
-
         var accountToTransferMoney = userAccounts.stream()
                 .filter(it -> it.getId() != accountId)
                 .findFirst()
                 .orElseThrow();
 
-        var newAmount = accountToTransferMoney.getMoneyAmount() + accountToClose.getMoneyAmount();
+        var newAmount = Math.addExact(accountToTransferMoney.getMoneyAmount(), accountToClose.getMoneyAmount());
         accountToTransferMoney.setMoneyAmount(newAmount);
+        accountMap.remove(accountId);
         return accountToClose;
     }
 
@@ -106,12 +105,13 @@ public class AccountService {
                             .formatted(accountFrom.getId(), accountFrom.getMoneyAmount(), amount)
             );
         }
-        accountFrom.setMoneyAmount(accountFrom.getMoneyAmount() - amount);
-
         int amountToTransfer = accountTo.getUserId() == accountFrom.getUserId()
                 ? amount
                 : (int) Math.round(amount * (1 - accountProperties.getTransferCommission()));
-        accountTo.setMoneyAmount(accountTo.getMoneyAmount() + amountToTransfer);
+        int sourceAfter = Math.subtractExact(accountFrom.getMoneyAmount(), amount);
+        int targetAfter = Math.addExact(accountTo.getMoneyAmount(), amountToTransfer);
+        accountFrom.setMoneyAmount(sourceAfter);
+        accountTo.setMoneyAmount(targetAfter);
     }
 
     private void validatePositiveId(Integer id, String fieldName) {

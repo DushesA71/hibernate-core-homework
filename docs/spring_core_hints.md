@@ -1,4 +1,6 @@
-# Подсказки к заданию MiniBank
+# SpringBank Hints: Iteration 1 (Spring Core)
+
+Эти подсказки относятся к первой итерации проекта `SpringBank`, которая выполняется после модуля `Spring Core`.
 
 Подсказки смотрите только после того, как сами **уже решили задачу или попробовали, но не получилось**.
 
@@ -107,18 +109,24 @@ public class ConsoleListener {
 }
 ```
 
-Это необязательная оптимизация — можно реализовать и через обычный switch. Но паттерн Command сделает код чище, если команд много.
+Это необязательная оптимизация - можно реализовать и через обычный switch. Но паттерн Command сделает код чище, если команд много.
 
 ## Как сделать перевод с одного счёта на другой
 
 **Описание**: Необходимо реализовать функцию перевода денег между счетами, учитывая комиссию.
 
-**Решение**: Метод `transfer` в `AccountService` должен сначала проверить достаточность средств на счёте отправителя, вычесть сумму перевода и зачислить средства на счёт получателя (с учётом комиссии, если счета принадлежат разным пользователям).
+**Решение**: Метод `transfer` в `AccountService` сначала проверяет сумму, различие счетов и достаточность средств. Оба итоговых баланса нужно вычислить с проверкой переполнения до изменения счетов (с учётом комиссии, если счета принадлежат разным пользователям).
 
 Пример метода `transfer` в `AccountService`:
 
 ```java
 public void transfer(int fromAccountId, int toAccountId, int amount) {
+    if (amount <= 0) {
+        throw new IllegalArgumentException("amount must be > 0");
+    }
+    if (fromAccountId == toAccountId) {
+        throw new IllegalArgumentException("source and target account id must be different");
+    }
     Account accountFrom = findAccountById(fromAccountId)
             .orElseThrow(() -> new IllegalArgumentException(
                 "No such account: id=%s".formatted(fromAccountId)));
@@ -133,15 +141,15 @@ public void transfer(int fromAccountId, int toAccountId, int amount) {
         );
     }
 
-    // Отправитель теряет полную сумму
-    accountFrom.setMoneyAmount(accountFrom.getMoneyAmount() - amount);
-
-    // Если счета принадлежат разным пользователям — применяем комиссию
+    // Если счета принадлежат разным пользователям - применяем комиссию
     int amountToReceive = (accountFrom.getUserId() != accountTo.getUserId())
             ? (int) Math.round(amount * (1 - accountProperties.getTransferCommission()))
             : amount;
 
-    accountTo.setMoneyAmount(accountTo.getMoneyAmount() + amountToReceive);
+    int sourceAfter = Math.subtractExact(accountFrom.getMoneyAmount(), amount);
+    int targetAfter = Math.addExact(accountTo.getMoneyAmount(), amountToReceive);
+    accountFrom.setMoneyAmount(sourceAfter);
+    accountTo.setMoneyAmount(targetAfter);
 }
 ```
 
@@ -163,4 +171,8 @@ public User createUser(String login) {
 }
 ```
 
-Аналогично для `AccountService`. Счётчики у `UserService` и `AccountService` независимые — это гарантирует, что каждый новый пользователь и аккаунт получат уникальный идентификатор.
+Аналогично для `AccountService`. Счётчики у `UserService` и `AccountService` независимые - это гарантирует, что каждый новый пользователь и аккаунт получат уникальный идентификатор.
+
+## Эталонное решение
+
+[Spring Core Bank Solution](https://github.com/sorokin-school/spring-core-bank-solution).
